@@ -29,7 +29,13 @@ def create_table() -> None:
                 CREATE TABLE IF NOT EXISTS dados (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     value FLOAT NOT NULL,
-                    memory_used FLOAT NOT NULL,
+                    time_used FLOAT NOT NULL,
+                    datetime_insert DATETIME NOT NULL
+                )
+
+                CREATE TABLE IF NOT EXISTS dados_maquinas (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    name STRING NOT NULL,
                     time_used FLOAT NOT NULL,
                     datetime_insert DATETIME NOT NULL
                 )
@@ -42,7 +48,7 @@ def create_table() -> None:
         print("Erro ao conectar com o MySQL: ", e)        
 
 
-def insert_table(value : float, memory_used:float, time_used: float) -> None:
+def insert_table(value : float, time_used: float) -> None:
     """
     Função responsável por inserir registro no banco de dados.
 
@@ -61,7 +67,7 @@ def insert_table(value : float, memory_used:float, time_used: float) -> None:
         if mydb.is_connected():
             mycursor = mydb.cursor()
 
-            sql_query = f'INSERT INTO {database}.dados(id,value,memory_used,time_used,datetime_insert) VALUES (null,{value},{memory_used},{time_used},now())'
+            sql_query = f'INSERT INTO {database}.dados(id,value,time_used,datetime_insert) VALUES (null,{value},{time_used},now())'
 
             mycursor.execute(sql_query)
             mydb.commit()
@@ -71,6 +77,24 @@ def insert_table(value : float, memory_used:float, time_used: float) -> None:
         if mydb.is_connected():
             mycursor.close()
             mydb.close()
+
+def insert_spend_process(name: str,time_used: float) -> None:
+    mydb.connect()
+    try:
+        if mydb.is_connected():
+            mycursor = mydb.cursor()
+
+            sql_query = f'INSERT INTO {database}.dados_maquinas(id,name,time_used,datetime_insert) VALUES (null,{name},{time_used},now())'
+
+            mycursor.execute(sql_query)
+            mydb.commit()
+    except mysql.connector.Error as e:
+        print("Erro ao conectar com o MySQL: ", e)
+    finally:
+        if mydb.is_connected():
+            mycursor.close()
+            mydb.close()
+
 
 def get_inserts(columns : str = "*") -> list:
     """

@@ -48,8 +48,6 @@ def show_plot_machine() -> None:
     list_value_machine : list = []
     list_name_machine : list = []
 
-    print(result)
-
     for name, value in result:
        list_name_machine.append(name)
        list_value_machine.append(value)

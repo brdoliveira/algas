@@ -1,6 +1,5 @@
 import time
 import pandas as pd
-from sys import getsizeof
 from use_db import *
 
 def get_dBA() -> None:

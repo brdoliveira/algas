@@ -6,11 +6,11 @@ CREATE TABLE IF NOT EXISTS dados (
 	value FLOAT NOT NULL,
 	time_used FLOAT NOT NULL,
 	datetime_insert DATETIME NOT NULL
-)
+);
 
 CREATE TABLE IF NOT EXISTS dados_maquinas (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	name STRING NOT NULL,
+	name VARCHAR(255),
 	time_used FLOAT NOT NULL,
 	datetime_insert DATETIME NOT NULL
-)
+);

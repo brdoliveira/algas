@@ -8,7 +8,7 @@ mydb = mysql.connector.connect(
     database= database
 )
 
-def create_table() -> None:
+def create_table_db() -> None:
     """
     Função responsável por criar a tabela caso não tenha no banco de Dados.
 
@@ -48,7 +48,7 @@ def create_table() -> None:
         print("Erro ao conectar com o MySQL: ", e)        
 
 
-def insert_table(value : float, time_used: float) -> None:
+def insert_table_db(value : float, time_used: float) -> None:
     """
     Função responsável por inserir registro no banco de dados.
 
@@ -78,7 +78,7 @@ def insert_table(value : float, time_used: float) -> None:
             mycursor.close()
             mydb.close()
 
-def insert_spend_process(name: str,time_used: float) -> None:
+def insert_spend_process_db(name: str,time_used: float) -> None:
     """
     Função responsável por inserir registro no banco de dados.
 
@@ -108,7 +108,7 @@ def insert_spend_process(name: str,time_used: float) -> None:
             mydb.close()
 
 
-def get_inserts(columns : str = "*") -> list:
+def get_inserts_db(columns : str = "*") -> list:
     """
     Função responsável por buscar os valores inseridos na tabela dados.
 
@@ -139,7 +139,7 @@ def get_inserts(columns : str = "*") -> list:
             mycursor.close()
             mydb.close()
 
-def get_inserts_data_machine() -> None:
+def get_inserts_data_machine_db() -> None:
     """
     Função responsável por buscar os valores inseridos na tabela dados.
 

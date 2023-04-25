@@ -10,7 +10,7 @@ def show_plot_data() -> None:
     Returns:
         none
     """
-    result : list = get_inserts('id,value,time_used')
+    result : list = get_inserts_db('id,value,time_used')
     list_id : list = []
     list_noise_value : list = []
     list_time_used: list = []
@@ -44,7 +44,7 @@ def show_plot_machine() -> None:
     Returns:
         none
     """
-    result : list = get_inserts_data_machine()
+    result : list = get_inserts_data_machine_db()
     list_value_machine : list = []
     list_name_machine : list = []
 

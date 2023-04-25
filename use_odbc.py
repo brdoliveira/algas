@@ -1,14 +1,7 @@
 import pyodbc
 from credentials import *
 
-
-def conect_odbc():
-    conn_string = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:bd-monitoramento.database.windows.net,1433;Database=bd-monitoramento;Uid='+ email +'@bd-monitoramento;Pwd='+ pswd +';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;;'
-    conn = pyodbc.connect(conn_string)
-    return conn.cursor()
-
-
-def insert_table(value : float, time_used: float) -> None:
+def insert_table_odbc(value : float, time_used: float) -> None:
     """
     Função responsável por inserir registro no banco de dados.
 
@@ -22,23 +15,21 @@ def insert_table(value : float, time_used: float) -> None:
     Errors:
         mysql.connector.Error: Erro com a conexão com o banco de dados
     """
-    pyodbc.connect()
+    conn = pyodbc.connect(conexao)
     try:
-        if pyodbc.is_connected():
-            mycursor = pyodbc.cursor()
+        cursor = conn.cursor()
 
-            sql_query = f'INSERT INTO {database}.dados(id,value,time_used,datetime_insert) VALUES (null,{value},{time_used},now())'
+        sql_query = f'INSERT INTO {database}.dados(value,time_used,datetime_insert) VALUES ({value},{time_used},getdate())'
+        print(sql_query)
 
-            mycursor.execute(sql_query)
-            pyodbc.commit()
-    except pyodbc.connector.Error as e:
+        cursor.execute(sql_query)
+        cursor.commit()
+    except pyodbc.ProgrammingError as e:
         print("Erro ao conectar com o MySQL: ", e)
     finally:
-        if pyodbc.is_connected():
-            mycursor.close()
-            pyodbc.close()
+        cursor.close()
 
-def insert_spend_process(name: str,time_used: float) -> None:
+def insert_spend_process_odbc(name: str,time_used: float) -> None:
     """
     Função responsável por inserir registro no banco de dados.
 
@@ -51,24 +42,22 @@ def insert_spend_process(name: str,time_used: float) -> None:
     Errors:
         mysql.connector.Error: Erro com a conexão com o banco de dados
     """
-    pyodbc.connect()
+    conn = pyodbc.connect(conexao)
     try:
-        if pyodbc.is_connected():
-            mycursor = pyodbc.cursor()
+        cursor = conn.cursor()
 
-            sql_query = f"INSERT INTO {database}.dados_maquinas(id,name,time_used,datetime_insert) VALUES (null,'{name}',{time_used},now())"
+        sql_query = f"INSERT INTO {database}.dados_maquinas(name,time_used,datetime_insert) VALUES ('{name}',{time_used},getdate())"
+        print(sql_query)
 
-            mycursor.execute(sql_query)
-            pyodbc.commit()
-    except pyodbc.connector.Error as e:
+        cursor.execute(sql_query)
+        cursor.commit()
+    except pyodbc.ProgrammingError as e:
         print("Erro ao conectar com o MySQL: ", e)
     finally:
-        if pyodbc.is_connected():
-            mycursor.close()
-            pyodbc.close()
+        cursor.close()
 
 
-def get_inserts(columns : str = "*") -> list:
+def get_inserts_odbc(columns : str = "*") -> list:
     """
     Função responsável por buscar os valores inseridos na tabela dados.
 
@@ -80,26 +69,23 @@ def get_inserts(columns : str = "*") -> list:
     Errors:
         mysql.connector.Error: Erro com a conexão com o banco de dados
     """
-    pyodbc.connect()
+    conn = pyodbc.connect(conexao)
     try:
-        if pyodbc.is_connected():
-            mycursor = pyodbc.cursor()
+        cursor = conn.cursor()
 
-            sql_query = f'SELECT {columns} FROM {database}.dados'
-            mycursor.execute(sql_query)
+        sql_query = f'SELECT {columns} FROM {database}.dados'
+        cursor.execute(sql_query)
 
-            result = mycursor.fetchall()
-            pyodbc.commit()
+        result = cursor.fetchall()
+        cursor.commit()
 
-            return result
-    except pyodbc.connector.Error as e:
+        return result
+    except pyodbc.ProgrammingError as e:
         print("Erro ao conectar com o MySQL: ", e)
     finally:
-        if pyodbc.is_connected():
-            mycursor.close()
-            pyodbc.close()
+        cursor.close()
 
-def get_inserts_data_machine() -> None:
+def get_inserts_data_machine_odbc() -> None:
     """
     Função responsável por buscar os valores inseridos na tabela dados.
 
@@ -111,21 +97,18 @@ def get_inserts_data_machine() -> None:
     Errors:
         mysql.connector.Error: Erro com a conexão com o banco de dados
     """
-    pyodbc.connect()
+    conn = pyodbc.connect(conexao)
     try:
-        if pyodbc.is_connected():
-            mycursor = pyodbc.cursor()
+        cursor = conn.cursor()
 
-            sql_query = f'SELECT name, avg(time_used) as media FROM {database}.dados_maquinas GROUP BY name'
-            mycursor.execute(sql_query)
+        sql_query = f'SELECT name, avg(time_used) as media FROM {database}.dados_maquinas GROUP BY name'
+        cursor.execute(sql_query)
 
-            result = mycursor.fetchall()
-            pyodbc.commit()
+        result = cursor.fetchall()
+        cursor.commit()
 
-            return result
-    except pyodbc.connector.Error as e:
+        return result
+    except pyodbc.ProgrammingError as e:
         print("Erro ao conectar com o MySQL: ", e)
     finally:
-        if pyodbc.is_connected():
-            mycursor.close()
-            pyodbc.close()
+        cursor.close()

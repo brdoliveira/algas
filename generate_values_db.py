@@ -30,7 +30,7 @@ def insert_dBA_BD(name) -> None:
     Returns:
         none
     """
-    create_table()
+    create_table_db()
     dataDBA = pd.read_csv('./data/dBA.csv')
 
     n_samples : int = 10
@@ -38,7 +38,7 @@ def insert_dBA_BD(name) -> None:
     while True:
 
         start_time_for = time.time()
-        for _ in range(50):
+        for _ in range(10):
             start_time = time.time()
             
             sample = dataDBA['dBA'].sample(n_samples).mean()
@@ -47,7 +47,7 @@ def insert_dBA_BD(name) -> None:
             elapsed_time = end_time - start_time
             elapsed_time = round(elapsed_time, 4)
 
-            insert_table(
+            insert_table_db(
                 value = float(sample),
                 time_used= float(elapsed_time) 
             )
@@ -56,6 +56,8 @@ def insert_dBA_BD(name) -> None:
         elapsed_time_for = end_time_for - start_time_for
         elapsed_time_for = round(elapsed_time_for,4)
 
-        insert_spend_process(name,elapsed_time_for)
+        insert_spend_process_db(name,elapsed_time_for)
 
-insert_dBA_BD("LOCAL")
+print('Insira o nome da Maquina:')
+nome_maquina = input()
+insert_dBA_BD(nome_maquina)

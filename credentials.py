@@ -1,5 +1,5 @@
 usr = '########'
 pswd = '########'
 host = '########'
-database = '########'
-email = "#################"
+database = '###'
+conexao = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:bd-monitoramento.database.windows.net,1433;Database=bd-monitoramento;Uid=bruno.oliveira@bandtec.com.br@bd-monitoramento;Pwd={your_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;'

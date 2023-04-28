@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from use_odbc import *
+import networkx as nx
 
 def show_plot_data() -> None:
     """
@@ -63,5 +64,27 @@ def show_plot_machine() -> None:
 
     plt.show()
 
+
+def graph_plot_machine() -> None:
+    G = nx.Graph()
+
+    G.add_node("Local")
+    G.add_node("São Paulo")
+    G.add_node("Virginia")
+
+    G.add_edge("Local","São Paulo")
+    G.add_edge("São Paulo","Virginia")
+
+    print(G.nodes())
+    print(G.edges)
+
+    color_list = ["orange","red","green"]
+
+    plt.figure(1)
+    plt.title("Memória gasta nos servidores")
+    nx.draw(G, with_labels=True,node_color=color_list,node_size = 1000)
+    plt.show()
+
 show_plot_data()
 show_plot_machine()
+graph_plot_machine()
